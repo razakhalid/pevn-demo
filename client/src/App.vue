@@ -1,26 +1,40 @@
 <template>
-  <img alt="Vue logo" src="./assets/logo.png">
-  <HelloWorld msg="Welcome to Your Vue.js App"/>
+  <div>
+    <h1>Quotes</h1>
+    <div class="quotes-container">
+      <div v-for="quote in quotes">
+        <h4>Quote {{ quote.id }}:</h4>
+        <span>By: {{ quote.author }}</span>
+        <p><i>"{{ quote.quote }}"</i></p>
+      </div>
+    </div>
+  </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
-
+import axios from 'axios';
 export default {
   name: 'App',
-  components: {
-    HelloWorld
+  data: () => ({
+    quotes: null
+  }),
+  mounted() {
+    this.getData();
+  },
+  methods: {
+    async getData() {
+      try {
+        const response = await axios.get('http://localhost:3000/quotes', {
+          params: {
+            page: 2
+          }
+        });
+        console.log(response);
+        this.quotes = response.data && response.data.data;
+      } catch (err) {
+        console.error(err)
+      }
+    }
   }
 }
 </script>
-
-<style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
-</style>
