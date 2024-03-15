@@ -14,6 +14,9 @@ function connect() {
                 console.log('connected to postgres');
             }
         });
+        pool.on('error', (err, client) => {
+            console.error('pool error: ', err);
+        })
     } catch (err) {
         console.error(err);
     }
