@@ -1,6 +1,7 @@
 const express = require('express');
 const path = require('path');
 const cors = require('cors');
+const db = require('./services/db');
 
 const app = express();
 const host = 'http://localhost';
@@ -19,6 +20,9 @@ app.get('/*', (req, res) => {
     res.sendFile(path.join(__dirname, '..', '..', 'client', 'dist', 'index.html'));
 });
 
-app.listen(port, () => {
-    console.log(`Listening on ${host}:${port}`);
-});
+(async function start() {
+    await db.connect();
+    app.listen(port, () => {
+        console.log(`Listening on: ${host}/${port}`);
+    })
+})();
