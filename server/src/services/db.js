@@ -6,14 +6,17 @@ const pool = new Pool({
 });
 
 function connect() {
-    pool.connect((err, client, done) => {
-        if (err) {
-            return console.error('could not connect to postgres', err);
-        }
-        else {
-            console.log('connected to postgres');
-        }
-    });
+    try {
+        pool.connect((err, client, done) => {
+            if (err) {
+                return console.error('could not connect to postgres', err);
+            } else {
+                console.log('connected to postgres');
+            }
+        });
+    } catch (err) {
+        console.error(err);
+    }
 }
 
 async function query(query, params) {
