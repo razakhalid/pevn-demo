@@ -2,7 +2,7 @@ const { Pool } = require('pg');
 const config = require('../config');
 
 const pool = new Pool({
-    connectionString: config.db.connectionString
+    connectionString: config.db.connectionString,
     max: 2
 });
 
