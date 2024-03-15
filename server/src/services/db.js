@@ -1,7 +1,10 @@
 const { Pool } = require('pg');
 const config = require('../config');
 
-const pool = new Pool({ connectionString: config.db.connectionString });
+const pool = new Pool({
+    connectionString: config.db.connectionString
+    max: 2
+});
 
 function connect() {
     pool.connect((err, client, done) => {
