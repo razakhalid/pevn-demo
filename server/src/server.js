@@ -1,10 +1,12 @@
 const express = require('express');
 const path = require('path');
+const cors = require('cors');
 
 const app = express();
 const host = 'http://localhost';
 const port = 3000;
 
+app.use(cors());
 app.use(express.static(path.join(__dirname, '..', '..', 'client', 'dist')));
 app.use(express.json());
 
