@@ -11,17 +11,18 @@ app.use(cors());
 app.use(express.static(path.join(__dirname, '..', '..', 'client', 'dist')));
 app.use(express.json());
 
-app.get('/quotes', (req, res) => {
+app.get('/quotes', async (req, res) => {
+    const { rows } = await db.query('select id, quote, author from quote');
     res.json({
-        message: 'hello world'
+        quotes: rows
     });
 });
 app.get('/*', (req, res) => {
     res.sendFile(path.join(__dirname, '..', '..', 'client', 'dist', 'index.html'));
 });
 
-(async function start() {
-    await db.connect();
+(function start() {
+    db.connect();
     app.listen(port, () => {
         console.log(`Listening on: ${host}/${port}`);
     })
